@@ -11,7 +11,23 @@ let input = readlinePromises.createInterface({
 const opsi = ["CREATE", "READ", "UPDATE", "DELETE", "LIST"];
 const files = [];
 
+
+
+createFile("teks4");
+
 //Fungsi create
+function createFile(nama){
+    let namaFile = nama.concat(".txt");
+    fs.open(namaFile,'w',function(err,file){
+        if(err){
+            throw err;
+        }else{
+            console.log(`File dengan nama ${namaFile} berhasil ditambah`);
+        }
+    })
+    let deskriptorFile = fs.openSync(namaFile);
+    fs.close();
+}
 
 //Fungsi Read
 
