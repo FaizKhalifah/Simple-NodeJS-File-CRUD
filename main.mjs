@@ -1,6 +1,7 @@
 import { promises as fsPromises } from 'fs';
 import process from "process";
 import readlinePromises from "readline/promises";
+import {files} from "list.mjs";
 
 
 let input = readlinePromises.createInterface({
@@ -9,7 +10,6 @@ let input = readlinePromises.createInterface({
 })
 
 const opsi = ["CREATE", "READ", "CHANGE", "UPDATE", "DELETE", "LIST"];
-const files = [];
 let status = true;
 
     async function main(){
@@ -20,27 +20,47 @@ let status = true;
            
             if(perintah.toLocaleLowerCase()==opsi[0].toLocaleLowerCase()){
                 let masukan = await input.question("Masukkan nama file yang ingin dibuat : ");
+                if(files.includes(masukan)){
+                    console.log("File dengan nama yang sama sudah ada ");
+                    continue;
+                }
                 const respon = await createFile(masukan);
                 files.push(masukan); 
                 console.log(respon);
             }
             else if(perintah.toLocaleLowerCase()==opsi[1].toLocaleLowerCase()){
                let masukan = await input.question("Masukkan nama file yang ingin dibaca : ");
+               if(files.includes(masukan)==false){
+                console.log("File tidak ditemukan");
+                continue;
+               }
                const data = await readFile(masukan);
                console.log(data);
             }else if(perintah.toLocaleLowerCase()==opsi[2].toLocaleLowerCase()){
                 let nama = await input.question("Masukkan nama file yang ingin diubah : ");
+                if(!files.includes(nama)){
+                    console.log("File tidak ditemukan");
+                    continue;
+                   }
                 let tulisan = await input.question("Masukkan tulisan yang ingin dimasukkan ke file : \n");
                 const respon = await changeFile(nama,tulisan);
                 console.log(respon);
             }else if(perintah.toLocaleLowerCase()==opsi[3].toLowerCase()){
                 let nama = await input.question("Masukkan nama file yang ingin diupdate : ");
+                if(!files.includes(nama)){
+                    console.log("File tidak ditemukan");
+                    continue;
+                   }
                 let tulisan = await input.question("Masukkan tulisan yang ingin dimasukkan ke file : \n");
                 const respon = await updateFile(nama,tulisan);
                 console.log(respon);
             }
             else if(perintah.toLocaleLowerCase()==opsi[4].toLocaleLowerCase()){
                 let masukan = await input.question("Masukkan nama file yang ingin dihapus : ");
+                if(!files.includes(masukan)){
+                    console.log("File tidak ditemukan");
+                    continue;
+                   }
                 const respon = await deleteFile(masukan);
                 let index = files.indexOf(masukan);
                 if(index!=-1){
