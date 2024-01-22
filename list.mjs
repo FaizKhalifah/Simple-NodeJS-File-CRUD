@@ -1,2 +1,0 @@
-const files = [];
-export{files};

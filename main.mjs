@@ -1,7 +1,7 @@
 import { promises as fsPromises } from 'fs';
 import process from "process";
 import readlinePromises from "readline/promises";
-import {files} from "list.mjs";
+
 
 
 let input = readlinePromises.createInterface({
@@ -9,8 +9,11 @@ let input = readlinePromises.createInterface({
     output:process.stdout
 })
 
+const files = [];
+
 const opsi = ["CREATE", "READ", "CHANGE", "UPDATE", "DELETE", "LIST"];
 let status = true;
+
 
     async function main(){
         while(status){
@@ -71,7 +74,7 @@ let status = true;
                 }
                 
             }else if(perintah.toLowerCase()==opsi[5].toLowerCase()){
-                if(files[0]=""){
+                if(files.length===0){
                     console.log("Tidak ada file lain dalam folder");
                 }else{
                     list(files);
@@ -146,4 +149,4 @@ function list(array){
     }
 }
 
-main();
+await main();
